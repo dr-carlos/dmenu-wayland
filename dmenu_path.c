@@ -15,7 +15,7 @@ static void scan(void);
 static int uptodate(void);
 
 static char **items = NULL;
-static const char *home, *path;
+static const char *home, *path, *cache;
 
 int
 main(void) {
@@ -23,7 +23,9 @@ main(void) {
 		die("no $HOME");
 	if(!(path = getenv("PATH")))
 		die("no $PATH");
-	if(chdir(home) < 0)
+	if(!(cache = getenv("XDG_CACHE_HOME")))
+		cache = home;
+	if(chdir(cache) < 0)
 		die("chdir failed");
 	if(uptodate()) {
 		execlp("cat", "cat", CACHE, NULL);
