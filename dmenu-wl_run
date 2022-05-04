@@ -1,2 +1,8 @@
 #!/bin/sh
-dmenu-wl_path | dmenu-wl "$@" | /bin/bash &
+program="$(dmenu-wl_path | dmenu-wl "$@")"
+
+if [ "$(echo $program | head -n1 | awk '{print $1;}')" = "maths" ]; then
+	echo $program | sed 's/(/\\(/g' | sed 's/)/\\)/g' | /bin/bash &
+else
+	echo $program | eval "$SHELL &"
+fi
