@@ -561,9 +561,12 @@ void dmenu_init_panel(struct dmenu_panel *panel, int32_t height, bool bottom) {
 	}
 	if (!panel->monitor) {
 		if (!panel->selected_monitor_name)
-			eprintf("No monitor with index %i available.\n", panel->selected_monitor);
+			weprintf("No monitor with index %i available.\n", panel->selected_monitor);
 		else
-		eprintf("No monitor with name %s available.\n", panel->selected_monitor_name);
+		weprintf("No monitor with name %s available.\n", panel->selected_monitor_name);
+
+        /* Use the default where the specified monitor doesn't exist. */
+        panel->monitor = monitors[0];
 	}
 
 	panel->surface.buffer = dmenu_create_buffer(panel);
